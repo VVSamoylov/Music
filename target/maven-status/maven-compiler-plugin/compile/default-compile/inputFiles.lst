@@ -1,1 +1,7 @@
+/home/venia/NetBeansProjects/music/src/main/java/ru/music/music/Controller/SubscriptionController.java
+/home/venia/NetBeansProjects/music/src/main/java/ru/music/music/Controller/UserController.java
+/home/venia/NetBeansProjects/music/src/main/java/ru/music/music/Entity/MUser.java
+/home/venia/NetBeansProjects/music/src/main/java/ru/music/music/Entity/Subscriptions.java
 /home/venia/NetBeansProjects/music/src/main/java/ru/music/music/MusicApplication.java
+/home/venia/NetBeansProjects/music/src/main/java/ru/music/music/Repository/MUserRepository.java
+/home/venia/NetBeansProjects/music/src/main/java/ru/music/music/Repository/SubscriptionRepository.java
