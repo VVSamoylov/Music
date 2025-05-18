@@ -1,5 +1,7 @@
 package ru.music.music.Controller;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,7 @@ public class UserController {
     private MUserRepository urepo;
     @Autowired
     private SubscriptionRepository subRepo;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @PostMapping("/")
     @Transactional
     public @ResponseBody String craeteUser(@RequestBody MUser user){
@@ -34,8 +37,7 @@ public class UserController {
             }
             urepo.save(user);
         }catch (Exception e){
-            System.out.println("transaction error");
-            System.out.println(e.fillInStackTrace());
+            logger.error("create user transaction error {}", e.getMessage());
             return "not Created";
         }
         return "created";
@@ -50,13 +52,15 @@ public class UserController {
         try{
             MUser curentUser = urepo.findById(id).orElse(null);
             if(curentUser == null){
+                logger.info("not updated user not found");
                 return "404";
             }
-            curentUser.setFirstName(user.getLastName());
+            curentUser.setFirstName(user.getFirstName());
             curentUser.setMidleName(user.getMidleName());
             curentUser.setLastName(user.getLastName());
             urepo.save(curentUser);
         }catch (Exception e){
+            logger.error("update transactional error {}", e.getMessage());
             return "error";
         }
         return "ok";
@@ -67,6 +71,7 @@ public class UserController {
         try{
             urepo.deleteById(id);
         }catch (Exception e){
+            logger.error("datete user transactional error {}", e.getMessage());
           return "error";
         }
         return "ok";
@@ -77,21 +82,25 @@ public class UserController {
         try{
             MUser user = urepo.findById(id).orElse(null);
             if(user == null){
+                logger.info("create subscription error user  not found " );
                 return "user not found";
             }
-            if(subRepo.existsById(subscriptions.getId())){
+            Subscriptions curSub  = subRepo.findBySubscriptionName(subscriptions.getSubscriptionName());
+            //если подписка новая ит только что созданая и ее нет в базе то сохраняем ее в базу
+            if(curSub == null){
                 subRepo.save(subscriptions);
+                curSub = subscriptions;
             }
-            user.getSubscriptions().add(subscriptions);
+            user.getSubscriptions().add(curSub);
             urepo.save(user);
             return "ok";
         }catch (Exception e){
+            logger.error(" cretate subscription transactional error {}", e.fillInStackTrace());
             return "error";
         }
     }
     @GetMapping("/{id}/subscriptions")
     public @ResponseBody Iterable<Subscriptions> getUserSubscription(@PathVariable long id){
-        //TODO подумать об NulPointExeption
         return urepo.findById(id).orElse(null).getSubscriptions();
     }
     @DeleteMapping("/{id}/subscriptions/{sub_id}")
@@ -100,14 +109,16 @@ public class UserController {
         try{
             MUser user = urepo.findById(id).orElse(null);
             if(user == null){
+                logger.info("delete subcription error user not found");
                 return "user not found";
             }
             // можно было бы сразу получить подписку что бы меньше лезть в базу для увеличения производительности, но это просто пример.
-            if(subRepo.existsById(sub_id)){
+            if(!subRepo.existsById(sub_id)){
                 return "subscription not found";
             }
             user.getSubscriptions().remove(subRepo.findById(sub_id).get());
         }catch (Exception e){
+            logger.error("delete subscription  transactional error {}", e.getMessage());
             return "error";
         }
         return "ok";

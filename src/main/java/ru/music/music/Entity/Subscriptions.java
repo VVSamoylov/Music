@@ -11,6 +11,7 @@ public class Subscriptions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    // в базе поле имеет уникальное значение и не используется вместо id что бы можно менять имя подписки
     @Column(name="subscription_name")
     private String subscriptionName;
 

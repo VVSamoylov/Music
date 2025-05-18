@@ -20,9 +20,10 @@ public class MUser {
      * подписки выделены в отдельную сущьность потому что могут иметь свои свойства например время начала и окончания, статус премиум или нет
      *
      */
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE )
-    @JoinColumn(name="usersubscript_id", nullable=true)
+    // одной подпиской може пользоваться мнго пользователей и у пользователя может быть много подписок
+    @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinTable(name = "list_subscriptions", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name="subscription_id", referencedColumnName = "id"))
     private Set<Subscriptions> subscriptions;
 
     // Lombok не использую в силу одной из причин

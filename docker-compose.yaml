@@ -1,0 +1,32 @@
+services:
+    app:
+        image: 'music:latest'
+        build:
+            context: .
+        ports:
+            - 9000:8080
+        container_name: app
+        depends_on:
+            - dbmusic
+        environment:
+            - POSTGRESS_DB_HOST:dbmusic
+            - POSTGRESS_DB_PASSWORD:cadmin
+            - POSTGRESS_DB_USERNAME:cadmin
+            - POSTGRESS_DB_PORT:5432
+        networks:
+            - music-network
+    dbmusic:
+        image: 'dbmusics:latest'
+        container_name: dbmusic
+        environment:
+            - POSTGRES_USER=cadmin
+            - POSTGRES_PASSWORD=cadmin
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        networks:
+            - music-network
+volumes:
+    postgres-data:
+        driver: local
+networks:
+    music-network:

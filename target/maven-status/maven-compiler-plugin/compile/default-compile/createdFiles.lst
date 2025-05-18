@@ -1,7 +1,7 @@
 ru/music/music/Entity/Subscriptions.class
 ru/music/music/Controller/UserController.class
 ru/music/music/Entity/MUser.class
-ru/music/music/Controller/SubscriptionController.class
 ru/music/music/Repository/SubscriptionRepository.class
 ru/music/music/MusicApplication.class
 ru/music/music/Repository/MUserRepository.class
+ru/music/music/Controller/HelsCheck.class
