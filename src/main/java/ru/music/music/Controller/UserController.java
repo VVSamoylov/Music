@@ -46,6 +46,10 @@ public class UserController {
     public @ResponseBody MUser getUser(@PathVariable Long id){
         return urepo.findById(id).orElse(null);
     }
+    @GetMapping("/all")
+    public @ResponseBody Iterable<MUser> getAllUsers(){
+        return urepo.findAll();
+    }
     @PutMapping("/{id}")
     @Transactional
     public  @ResponseBody String updateUser(@PathVariable long id, @RequestBody MUser user){
