@@ -1,0 +1,46 @@
+#тест на жизнь сервиса как во время разработки так и после развертывания
+#порты и значения переменных поменять в зависимости от задачи
+#удалить подписку
+curl --request DELETE \
+  --url http://localhost:9000/users/1/subscriptions/11 \
+  --header 'User-Agent: insomnia/10.3.1'
+#Получить все подписки пользователя
+curl --request GET \
+  --url http://localhost:9000/users/1/subscriptions \
+  --header 'User-Agent: insomnia/10.3.1'
+#добавить подписку пользователю
+curl --request POST \
+  --url http://localhost:9000/users/102/subscriptions \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/10.3.1' \
+  --data '{
+  "subscriptionName": "TesMusic"
+}'
+
+#получить сведения о пользователе
+curl --request GET \
+  --url http://localhost:9000/users/1 \
+  --header 'User-Agent: insomnia/10.3.1'
+
+#добавить пользователя
+curl --request POST \
+  --url http://localhost:9000/users/ \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/10.3.1' \
+  --data '{
+  "firstName": "Сергей",
+  "midleName": "Николаевич",
+  "lastName": "Тестов"
+}'
+
+#обновить сведения о пользователе
+curl --request PUT \
+  --url 'http://localhost:9000/users/1?id=1' \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/10.3.1' \
+  --data '{
+  "id": 1,
+  "firstName": " Степан",
+  "midleName": "Васильевич",
+  "lastName": "Подписчиков"
+}'

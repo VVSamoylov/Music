@@ -9,10 +9,10 @@ services:
         depends_on:
             - dbmusic
         environment:
-            - POSTGRESS_DB_HOST:dbmusic
-            - POSTGRESS_DB_PASSWORD:cadmin
-            - POSTGRESS_DB_USERNAME:cadmin
-            - POSTGRESS_DB_PORT:5432
+            - POSTGRESS_DB_HOST=jdbc:postgresql://dbmusic
+            - POSTGRESS_DB_PASSWORD=cadmin
+            - POSTGRESS_DB_USERNAME=cadmin
+            - POSTGRESS_DB_PORT=5432
         networks:
             - music-network
     dbmusic:
